@@ -1,0 +1,48 @@
+{
+  "simulators": [
+    {
+      "slug": "heart-lab",
+      "name": "Heart Lab",
+      "tagline": "3D Circulatory System Simulator",
+      "icon": "🫀",
+      "category": "Biology",
+      "accent": "#ef5350",
+      "description": "Explore the human circulatory system: the four heart chambers, the one-way valves, and the flow of oxygenated and deoxygenated blood through the lungs and around the body.",
+      "keywords": [
+        "heart",
+        "circulatory",
+        "blood",
+        "cardiovascular",
+        "anatomy",
+        "biology",
+        "pump",
+        "lungs",
+        "arteries",
+        "veins",
+        "valves"
+      ]
+    },
+    {
+      "slug": "transformer-lab",
+      "name": "Transformer Lab",
+      "tagline": "3D Power Transformer Simulator",
+      "icon": "⚡",
+      "category": "Electrical Engineering",
+      "accent": "#38bdf8",
+      "description": "Take apart a distribution transformer: the core, windings, bushings, radiators, cooling fans, oil conservator, tap changer and more.",
+      "keywords": [
+        "transformer",
+        "electricity",
+        "voltage",
+        "power",
+        "electrical",
+        "engineering",
+        "energy",
+        "current",
+        "magnetic core",
+        "windings",
+        "substation"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Heart Lab - 3D Circulatory System Simulator</title>
+<link rel="stylesheet" href="styles.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app">
+  <div id="viewport"></div>
+
+  <div id="toolbar">
+    <div class="brand">
+      <span class="logo">🫀</span>
+      <div>
+        <strong>Heart Lab</strong>
+        <small>3D circulatory system</small>
+      </div>
+    </div>
+
+    <div class="tool-group" id="modeGroup">
+      <button class="tb-btn active" data-mode="translate" title="Move (or drag the part directly)">
+        <span class="ic">✥</span>Move
+      </button>
+      <button class="tb-btn" data-mode="rotate" title="Rotate">
+        <span class="ic">↻</span>Rotate
+      </button>
+      <button class="tb-btn" data-mode="scale" title="Scale">
+        <span class="ic">⇲</span>Scale
+      </button>
+    </div>
+
+    <div class="tool-group">
+      <label class="range-wrap" title="Spread the parts apart">
+        <span class="lbl">Explode</span>
+        <input id="explodeSlider" type="range" min="0" max="100" value="0" />
+      </label>
+    </div>
+
+    <div class="tool-group" id="viewGroup">
+      <button class="tb-btn" id="btnXray" title="Make the heart &amp; lungs see-through">X-ray</button>
+      <button class="tb-btn" id="btnInternals" title="Show the heart chambers inside">Chambers</button>
+      <button class="tb-btn" id="btnBeat" title="Pause / resume the heartbeat and blood flow">Pulse</button>
+      <button class="tb-btn" id="btnResetView" title="Reset camera">Fit</button>
+    </div>
+
+    <div class="tool-group" id="loadGroup">
+      <label class="range-wrap" title="Heart rate (beats per minute)">
+        <span class="lbl">Heart rate</span>
+        <input id="bpmSlider" type="range" min="30" max="180" value="72" />
+      </label>
+      <span id="bpmVal" class="val-chip">72 BPM</span>
+    </div>
+
+    <div class="tool-group">
+      <button class="tb-btn" id="btnReset" title="Restore the original layout">Reset</button>
+      <button class="tb-btn" id="btnSave" title="Download scene as JSON">Save</button>
+      <button class="tb-btn" id="btnLoad" title="Load a saved scene">Load</button>
+      <button class="tb-btn" id="btnShot" title="Save a PNG screenshot">Photo</button>
+      <input type="file" id="fileInput" accept=".json" hidden />
+    </div>
+
+    <div class="tool-group home-nav">
+      <a class="tb-btn" href="../../index.html" title="Back to all simulators">
+        <span class="ic">☰</span>All simulators
+      </a>
+    </div>
+  </div>
+
+  <aside id="panel">
+    <div class="panel-head">
+      <span id="panelTitle">Component Inspector</span>
+      <button id="btnClosePanel" title="Close panel">×</button>
+    </div>
+    <div id="panelBody">
+      <p class="muted">Click any part of the circulatory system to select it. Use the Move / Rotate / Scale tools or drag the arrows to edit.</p>
+      <p class="muted">Turn on <b>X-ray</b> to see through the heart muscle, <b>Chambers</b> to reveal the 4 heart chambers, and <b>Pulse</b> to pause the heartbeat &amp; blood flow.</p>
+    </div>
+  </aside>
+
+  <div id="statusbar">
+    <span id="statusText">Ready — click a component to select it</span>
+    <span id="bpmReadout" class="val-chip">♥ 72 BPM</span>
+  </div>
+
+  <button id="btnPanelToggle" title="Show / hide inspector">⚙</button>
+</div>
+
+<section id="notes">
+  <div class="notes-wrap">
+    <header class="notes-title">
+      <h2>Student Guide — How the Circulatory System Works</h2>
+      <p>Use the simulator above as you read. Watch the red (oxygenated) and blue (deoxygenated) cells flow around the loop, and use the controls to slow the heart down, see inside it, or pull it apart.</p>
+    </header>
+
+    <div class="note">
+      <h3>1 · Two circuits, one pump</h3>
+      <p>The heart is really <b>two pumps in one</b>. The right side pumps blood to the lungs (the <b>pulmonary circuit</b>) to pick up oxygen. The left side pumps the freshly oxygenated blood to the rest of the body (the <b>systemic circuit</b>). Every heartbeat pumps through both circuits at the same time.</p>
+    </div>
+
+    <div class="note">
+      <h3>2 · Follow one red blood cell</h3>
+      <p>Start at the <b>superior and inferior vena cava</b> — the big veins that bring deoxygenated (used-up) blood back from the body. The route is:</p>
+      <p class="formula">SVC / IVC → right atrium → tricuspid valve → right ventricle → pulmonary valve → pulmonary arteries → lungs → pulmonary veins → left atrium → mitral valve → left ventricle → aortic valve → aorta → the whole body</p>
+      <p>Watch a cell change colour as it passes through the lungs — that is where it <b>drops off CO<sub>2</sub> and picks up O<sub>2</sub></b>.</p>
+    </div>
+
+    <div class="note">
+      <h3>3 · Oxygenated vs deoxygenated blood</h3>
+      <p>In the simulator, <b>red = oxygenated</b> (loaded with oxygen, leaving the heart for the body) and <b>blue = deoxygenated</b> (returning to the heart after the body has used the oxygen). In reality blood is always red — the colours just show how much oxygen it is carrying.</p>
+    </div>
+
+    <div class="note">
+      <h3>4 · Valves are one-way doors</h3>
+      <p>Blood must flow in one direction only. The four <b>valves</b> open and close in rhythm with the beat: when the ventricles squeeze (<b>systole</b>), the aortic and pulmonary valves open to let blood out while the mitral and tricuspid close to stop it flowing backwards. During relaxation (<b>diastole</b>) the opposite happens. Press <b>Pulse</b> to freeze the beat and inspect a valve closely.</p>
+    </div>
+
+    <div class="note">
+      <h3>5 · The four chambers</h3>
+      <p>Click <b>Chambers</b> to see them inside the muscle. The <b>atria</b> (top) are thin-walled — they just receive blood and nudge it into the ventricles. The <b>ventricles</b> (bottom) have thick muscular walls because they do the hard pumping. The <b>left ventricle</b> is the strongest of all: it must push blood all the way around the whole body.</p>
+    </div>
+
+    <div class="note">
+      <h3>6 · The lungs and the coronary arteries</h3>
+      <p>The <b>pulmonary arteries</b> are the only arteries that carry deoxygenated blood, and the <b>pulmonary veins</b> are the only veins carrying oxygenated blood. The <b>coronary arteries</b> are the heart's own blood supply — the heart muscle needs oxygen too, and if a coronary artery becomes blocked, part of the heart is starved of oxygen (a heart attack).</p>
+    </div>
+
+    <div class="note">
+      <h3>Try this with the simulator</h3>
+      <ul>
+        <li>Slow the <b>Heart rate</b> slider right down and follow one cell on its whole journey.</li>
+        <li>Turn on <b>Chambers</b> and <b>X-ray</b>, then watch which valve opens as blood leaves each chamber.</li>
+        <li>Click <b>Explode</b> to separate the heart, lungs and vessels and see how they connect.</li>
+        <li>Click each part and read its <b>description</b> in the inspector panel.</li>
+      </ul>
+    </div>
+
+    <footer class="notes-foot">
+      <p>Key terms to remember: <b>pulmonary</b> and <b>systemic circuits</b>, <b>atria</b> and <b>ventricles</b>, <b>systole</b> and <b>diastole</b>, <b>aortic / pulmonary / mitral / tricuspid valves</b>, <b>oxygenated vs deoxygenated blood</b>, <b>coronary arteries</b>, <b>capillaries</b>.</p>
+    </footer>
+  </div>
+</section>
+
+<div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

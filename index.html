@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EduLift — Interactive 3D Simulators</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="index.html">
+    <span class="logo">🎓</span>
+    <div>
+      <strong>EduLift</strong>
+      <small>Interactive 3D simulators for learning</small>
+    </div>
+  </a>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Explore science in 3D</h1>
+    <p class="hero-sub">Search for a simulator below or browse the full list. Every model can be rotated, pulled apart and inspected part by part.</p>
+
+    <div class="search-wrap">
+      <span class="search-ic" aria-hidden="true">🔍</span>
+      <input id="search" type="search" placeholder="Search simulators — try “transformer”, “heart”, “blood”…"
+             autocomplete="off" spellcheck="false" />
+      <kbd>Enter ↵</kbd>
+    </div>
+
+    <div id="filterChips" class="chips" aria-label="Filter by category"></div>
+  </section>
+
+  <section class="results" id="results">
+    <div class="results-head">
+      <h2 id="resultsTitle">All simulators</h2>
+      <span id="count" class="count"></span>
+    </div>
+    <div id="grid" class="grid"></div>
+    <p id="empty" class="empty" hidden>No simulators match that search — try a different word.</p>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>EduLift · New simulators are added over time — check back soon.</p>
+</footer>
+
+<div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
+
+<script src="home.js"></script>
+</body>
+</html>

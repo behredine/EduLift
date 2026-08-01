@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Transformer Lab - 3D Power Transformer Simulator</title>
+<link rel="stylesheet" href="styles.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app">
+  <div id="viewport"></div>
+
+  <div id="toolbar">
+    <div class="brand">
+      <span class="logo">⚡</span>
+      <div>
+        <strong>Transformer Lab</strong>
+        <small>3D interactive simulator</small>
+      </div>
+    </div>
+
+    <div class="tool-group" id="modeGroup">
+      <button class="tb-btn active" data-mode="translate" title="Move (or drag the part directly)">
+        <span class="ic">✥</span>Move
+      </button>
+      <button class="tb-btn" data-mode="rotate" title="Rotate">
+        <span class="ic">↻</span>Rotate
+      </button>
+      <button class="tb-btn" data-mode="scale" title="Scale">
+        <span class="ic">⇲</span>Scale
+      </button>
+    </div>
+
+    <div class="tool-group">
+      <label class="range-wrap" title="Spread the parts apart">
+        <span class="lbl">Explode</span>
+        <input id="explodeSlider" type="range" min="0" max="100" value="0" />
+      </label>
+    </div>
+
+    <div class="tool-group" id="viewGroup">
+      <button class="tb-btn" id="btnXray" title="Make outer parts see-through">X-ray</button>
+      <button class="tb-btn" id="btnInternals" title="Show core &amp; windings">Internals</button>
+      <button class="tb-btn" id="btnResetView" title="Reset camera">Fit</button>
+    </div>
+
+    <div class="tool-group" id="loadGroup">
+      <label class="range-wrap" title="Electrical load of the transformer">
+        <span class="lbl">Load</span>
+        <input id="loadSlider" type="range" min="0" max="100" value="50" />
+      </label>
+      <span id="loadVal" class="val-chip">50%</span>
+    </div>
+
+    <div class="tool-group">
+      <button class="tb-btn" id="btnReset" title="Restore factory layout">Reset</button>
+      <button class="tb-btn" id="btnSave" title="Download scene as JSON">Save</button>
+      <button class="tb-btn" id="btnLoad" title="Load a saved scene">Load</button>
+      <button class="tb-btn" id="btnShot" title="Save a PNG screenshot">Photo</button>
+      <input type="file" id="fileInput" accept=".json" hidden />
+    </div>
+
+    <div class="tool-group home-nav">
+      <a class="tb-btn" href="../../index.html" title="Back to all simulators">
+        <span class="ic">☰</span>All simulators
+      </a>
+    </div>
+  </div>
+
+  <aside id="panel">
+    <div class="panel-head">
+      <span id="panelTitle">Component Inspector</span>
+      <button id="btnClosePanel" title="Close panel">×</button>
+    </div>
+    <div id="panelBody">
+      <p class="muted">Click any part of the transformer to select it. Use the Move / Rotate / Scale tools or drag the arrows to edit.</p>
+      <p class="muted">Tip: turn on <b>X-ray</b> and <b>Internals</b> to see the core and windings inside the tank.</p>
+    </div>
+  </aside>
+
+  <div id="statusbar">
+    <span id="statusText">Ready — click a component to select it</span>
+    <span id="oilTemp" class="val-chip">Oil 65°C</span>
+  </div>
+
+  <button id="btnPanelToggle" title="Show / hide inspector">⚙</button>
+</div>
+
+<section id="notes">
+  <div class="notes-wrap">
+    <header class="notes-title">
+      <h2>Student Guide — How a Power Transformer Works</h2>
+      <p>Use the simulator above as you read. Click, rotate, zoom and pull the transformer apart — every part can be selected and inspected, so you can match what you read with what you see.</p>
+    </header>
+
+    <div class="note">
+      <h3>1 · What is a transformer?</h3>
+      <p>A transformer is a machine that <b>changes the voltage of an alternating current (AC)</b> without any moving parts. Power plants generate electricity at high voltage, and transformers step it down in stages until it is safe to use in homes and factories. This model shows a distribution transformer that steps <b>115 kV down to 20 kV</b>.</p>
+    </div>
+
+    <div class="note">
+      <h3>2 · How does it change voltage?</h3>
+      <p>Inside the tank are two coils of wire — the <b>windings</b> — wrapped around a common <b>iron core</b>. When alternating current flows through one winding (the <b>primary</b>), it creates a constantly changing magnetic field in the core. That changing field induces a voltage in the other winding (the <b>secondary</b>). This effect is called <b>electromagnetic induction</b>.</p>
+      <p>This only works because the magnetic field is <b>changing</b> — which is exactly why transformers work with AC and not with battery (DC) power.</p>
+    </div>
+
+    <div class="note">
+      <h3>3 · Why 115 kV and 20 kV? (The turns ratio)</h3>
+      <p>The voltage depends on the number of turns of wire in each coil:</p>
+      <p class="formula">V<sub>primary</sub> ÷ V<sub>secondary</sub> = N<sub>primary</sub> ÷ N<sub>secondary</sub></p>
+      <p>If the secondary coil has fewer turns, the voltage is <b>stepped down</b> (and the current steps up). High voltage is used for transmission because it loses less energy over long distances.</p>
+    </div>
+
+    <div class="note">
+      <h3>4 · The windings and the core</h3>
+      <p>Turn on <b>Internals</b> and <b>X-ray</b> to see them inside the tank. The iron core is laminated — built from thin sheets — to reduce energy lost to <b>eddy currents</b>. The windings are many turns of insulated copper or aluminium conductor: the LV windings sit closest to the core, with the HV windings wrapped outside them.</p>
+    </div>
+
+    <div class="note">
+      <h3>5 · Why oil and radiators?</h3>
+      <p>Power transformers get hot, and heat destroys their insulation. The <b>insulating oil</b> does two jobs: it <b>insulates</b> the windings and <b>carries heat away</b> to the <b>radiators</b>, where air (and the <b>cooling fans</b>) removes it. The <b>conservator</b> is an expansion tank that makes room for the oil as it expands when hot, and the <b>silica-gel breather</b> keeps moisture out of the tank. Try raising the <b>Load</b> slider and watch the oil temperature gauge climb.</p>
+    </div>
+
+    <div class="note">
+      <h3>6 · How the output voltage is kept stable</h3>
+      <p>The <b>on-load tap changer (OLTC)</b> can add or remove a few turns of a winding while the transformer is running — slightly changing the turns ratio — so the output voltage stays steady even when the load changes.</p>
+    </div>
+
+    <div class="note">
+      <h3>7 · Safety and the smaller details</h3>
+      <p>The <b>HV and LV bushings</b> are porcelain insulators that let the high-voltage conductors pass safely through the metal tank without touching it. The <b>ground / earth terminal</b> connects the tank to earth so it can never become live. The <b>oil drain valve</b> lets oil be sampled or replaced, the <b>nameplate</b> lists the transformer's ratings, and the <b>WTI gauge</b> measures the hottest spot in the windings — not just the oil temperature.</p>
+    </div>
+
+    <div class="note">
+      <h3>Try this with the simulator</h3>
+      <ul>
+        <li>Slide <b>Explode</b> up to see how the transformer is assembled, from the base frame to the bushings.</li>
+        <li>Click each part and read its <b>description</b> in the inspector panel.</li>
+        <li>Use <b>Move / Rotate / Scale</b> to lift the windings out of the core and inspect them from every side.</li>
+        <li>Set <b>Load</b> to 100% and note how the oil temperature climbs.</li>
+      </ul>
+    </div>
+
+    <footer class="notes-foot">
+      <p>Key terms to remember: <b>primary</b> and <b>secondary windings</b>, <b>magnetic core</b>, <b>turns ratio</b>, <b>electromagnetic induction</b>, <b>insulating oil</b>, <b>radiators</b> and <b>cooling fans</b>, <b>OLTC tap changer</b>, <b>bushings</b>, <b>conservator</b>.</p>
+    </footer>
+  </div>
+</section>
+
+<div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
