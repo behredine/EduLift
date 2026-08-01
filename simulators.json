@@ -20,7 +20,26 @@
         "arteries",
         "veins",
         "valves"
-      ]
+      ],
+      "topics": [
+        "Pulmonary and systemic circuits",
+        "Heart chambers: atria and ventricles",
+        "Heart valves and one-way blood flow",
+        "Systole and diastole",
+        "Oxygenated vs deoxygenated blood",
+        "Coronary arteries"
+      ],
+      "learningObjectives": [
+        "Describe the route of a red blood cell through both circuits",
+        "Identify the four chambers and the valves between them",
+        "Explain why the left ventricle has the thickest walls",
+        "Distinguish oxygenated from deoxygenated blood",
+        "Explain how valves prevent blood flowing backwards"
+      ],
+      "related": [
+        { "slug": "transformer-lab", "note": "Compare how two different systems move energy — blood through the body, current through a transformer" }
+      ],
+      "difficulty": "Beginner"
     },
     {
       "slug": "transformer-lab",
@@ -42,7 +61,26 @@
         "magnetic core",
         "windings",
         "substation"
-      ]
+      ],
+      "topics": [
+        "Electromagnetic induction",
+        "Primary and secondary windings",
+        "Turns ratio and voltage stepping",
+        "The laminated iron core",
+        "Insulating oil and cooling systems",
+        "On-load tap changers and bushings"
+      ],
+      "learningObjectives": [
+        "Explain how a transformer changes AC voltage",
+        "State the turns ratio and use it to predict output voltage",
+        "Describe why the core is laminated",
+        "Identify the parts that keep a transformer cool",
+        "Explain why transformers work with AC and not DC"
+      ],
+      "related": [
+        { "slug": "heart-lab", "note": "Both simulators show how energy is moved through a system — compare the two layouts" }
+      ],
+      "difficulty": "Intermediate"
     }
   ]
 }

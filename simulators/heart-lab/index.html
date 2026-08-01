@@ -2,7 +2,100 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="Free 3D circulatory system simulator. Rotate, explode and inspect the human heart part by part — chambers, valves, blood flow and the two circuits." />
+<meta name="keywords" content="heart simulator, circulatory system 3D, heart anatomy, blood flow, cardiac anatomy, educational simulator" />
+<meta name="author" content="EduLift" />
+<meta name="theme-color" content="#0a0e14" />
+<link rel="canonical" href="https://edu-lift-omega.vercel.app/simulators/heart-lab/" />
+<link rel="icon" href="../../favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+<link rel="manifest" href="../../site.webmanifest" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="EduLift" />
+<meta property="og:title" content="Heart Lab — 3D Circulatory System Simulator" />
+<meta property="og:description" content="Free 3D circulatory system simulator. Rotate, explode and inspect the human heart part by part." />
+<meta property="og:url" content="https://edu-lift-omega.vercel.app/simulators/heart-lab/" />
+<meta property="og:image" content="https://edu-lift-omega.vercel.app/simulators/heart-lab/og-image.png" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Heart Lab — 3D Circulatory System Simulator" />
+<meta name="twitter:description" content="Free 3D circulatory system simulator. Rotate, explode and inspect the human heart part by part." />
+<meta name="twitter:image" content="https://edu-lift-omega.vercel.app/simulators/heart-lab/og-image.png" />
+
+<title>Heart Lab — 3D Circulatory System Simulator</title>
+
+<script id="edulift-meta" type="application/json">
+{
+  "siteName": "EduLift",
+  "type": "article",
+  "title": "Heart Lab — 3D Circulatory System Simulator",
+  "description": "Free 3D circulatory system simulator. Rotate, explode and inspect the human heart part by part.",
+  "canonical": "https://edu-lift-omega.vercel.app/simulators/heart-lab/",
+  "image": "https://edu-lift-omega.vercel.app/simulators/heart-lab/og-image.png",
+  "themeColor": "#0a0e14"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/heart-lab/#webpage",
+      "url": "https://edu-lift-omega.vercel.app/simulators/heart-lab/",
+      "name": "Heart Lab — 3D Circulatory System Simulator",
+      "description": "Free 3D circulatory system simulator. Rotate, explode and inspect the human heart part by part.",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" },
+      "about": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "primaryImageOfPage": "https://edu-lift-omega.vercel.app/simulators/heart-lab/og-image.png"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/heart-lab/#app",
+      "name": "Heart Lab",
+      "url": "https://edu-lift-omega.vercel.app/simulators/heart-lab/",
+      "image": "https://edu-lift-omega.vercel.app/simulators/heart-lab/og-image.png",
+      "description": "A free 3D simulator of the human circulatory system: rotate, explode and inspect the heart, its four chambers, valves and blood flow.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires WebGL and a modern browser",
+      "featureList": "3D rotation, explode view, X-ray, chamber inspection, adjustable heart rate, save and load scenes",
+      "inLanguage": "en",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" }
+    },
+    {
+      "@type": "LearningResource",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/heart-lab/#lesson",
+      "name": "How the Circulatory System Works",
+      "description": "An interactive lesson on the human circulatory system using a 3D heart simulator.",
+      "learningResourceType": "3D interactive simulator",
+      "educationalLevel": "Secondary school and above",
+      "teaches": [
+        "Pulmonary and systemic circuits",
+        "Heart chambers: atria and ventricles",
+        "Heart valves and one-way blood flow",
+        "Systole and diastole",
+        "Oxygenated vs deoxygenated blood"
+      ],
+      "about": [
+        { "@type": "AnatomicalStructure", "name": "Heart" },
+        { "@type": "AnatomicalStructure", "name": "Circulatory system" }
+      ],
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" }
+    }
+  ]
+}
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZNSWN38MR"></script>
 <script>
@@ -12,8 +105,10 @@
 
   gtag('config', 'G-KZNSWN38MR');
 </script>
-<title>Heart Lab - 3D Circulatory System Simulator</title>
+<link rel="preload" as="style" href="styles.css" />
 <link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
 <script type="importmap">
 {
   "imports": {
@@ -24,6 +119,7 @@
 </script>
 </head>
 <body>
+<a class="skip-link" href="#notes">Skip to student guide</a>
 <div id="app">
   <div id="viewport"></div>
 
@@ -161,6 +257,7 @@
 
 <div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
 
+<script src="../../js/site.js" defer></script>
 <script type="module" src="js/app.js"></script>
 </body>
 </html>

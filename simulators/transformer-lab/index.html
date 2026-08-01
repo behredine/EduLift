@@ -2,7 +2,101 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="Free 3D power transformer simulator. Rotate, explode and inspect a distribution transformer part by part — core, windings, oil system, bushings and tap changer." />
+<meta name="keywords" content="transformer simulator, power transformer 3D, transformer anatomy, windings, electromagnetic induction, turns ratio, electrical engineering, educational simulator" />
+<meta name="author" content="EduLift" />
+<meta name="theme-color" content="#0a0e14" />
+<link rel="canonical" href="https://edu-lift-omega.vercel.app/simulators/transformer-lab/" />
+<link rel="icon" href="../../favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+<link rel="manifest" href="../../site.webmanifest" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="EduLift" />
+<meta property="og:title" content="Transformer Lab — 3D Power Transformer Simulator" />
+<meta property="og:description" content="Free 3D power transformer simulator. Rotate, explode and inspect a distribution transformer part by part." />
+<meta property="og:url" content="https://edu-lift-omega.vercel.app/simulators/transformer-lab/" />
+<meta property="og:image" content="https://edu-lift-omega.vercel.app/simulators/transformer-lab/og-image.png" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Transformer Lab — 3D Power Transformer Simulator" />
+<meta name="twitter:description" content="Free 3D power transformer simulator. Rotate, explode and inspect a distribution transformer part by part." />
+<meta name="twitter:image" content="https://edu-lift-omega.vercel.app/simulators/transformer-lab/og-image.png" />
+
+<title>Transformer Lab — 3D Power Transformer Simulator</title>
+
+<script id="edulift-meta" type="application/json">
+{
+  "siteName": "EduLift",
+  "type": "article",
+  "title": "Transformer Lab — 3D Power Transformer Simulator",
+  "description": "Free 3D power transformer simulator. Rotate, explode and inspect a distribution transformer part by part.",
+  "canonical": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/",
+  "image": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/og-image.png",
+  "themeColor": "#0a0e14"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/#webpage",
+      "url": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/",
+      "name": "Transformer Lab — 3D Power Transformer Simulator",
+      "description": "Free 3D power transformer simulator. Rotate, explode and inspect a distribution transformer part by part.",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" },
+      "about": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "primaryImageOfPage": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/og-image.png"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/#app",
+      "name": "Transformer Lab",
+      "url": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/",
+      "image": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/og-image.png",
+      "description": "A free 3D simulator of a power distribution transformer: rotate, explode and inspect the core, windings, insulating oil system, bushings and tap changer.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires WebGL and a modern browser",
+      "featureList": "3D rotation, explode view, X-ray, core and windings inspection, adjustable load, oil temperature simulation, save and load scenes",
+      "inLanguage": "en",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" }
+    },
+    {
+      "@type": "LearningResource",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/transformer-lab/#lesson",
+      "name": "How a Power Transformer Works",
+      "description": "An interactive lesson on how a power transformer works using a 3D simulator.",
+      "learningResourceType": "3D interactive simulator",
+      "educationalLevel": "Secondary school and above",
+      "teaches": [
+        "Electromagnetic induction",
+        "Primary and secondary windings",
+        "Turns ratio and voltage stepping",
+        "The laminated iron core",
+        "Insulating oil and cooling systems",
+        "On-load tap changers and bushings"
+      ],
+      "about": [
+        { "@type": "Thing", "name": "Power transformer" },
+        { "@type": "Thing", "name": "Electromagnetism" }
+      ],
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" }
+    }
+  ]
+}
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZNSWN38MR"></script>
 <script>
@@ -12,8 +106,10 @@
 
   gtag('config', 'G-KZNSWN38MR');
 </script>
-<title>Transformer Lab - 3D Power Transformer Simulator</title>
+<link rel="preload" as="style" href="styles.css" />
 <link rel="stylesheet" href="styles.css" />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
 <script type="importmap">
 {
   "imports": {
@@ -24,6 +120,7 @@
 </script>
 </head>
 <body>
+<a class="skip-link" href="#notes">Skip to student guide</a>
 <div id="app">
   <div id="viewport"></div>
 
@@ -166,6 +263,7 @@
 
 <div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
 
+<script src="../../js/site.js" defer></script>
 <script type="module" src="js/app.js"></script>
 </body>
 </html>

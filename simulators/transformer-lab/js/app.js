@@ -692,3 +692,26 @@ try {
 setStatus('Ready — click a component to select it');
 document.body.dataset.booted = '1';
 animate();
+
+/* ---------- analytics ---------- */
+const track = (name, params) => {
+  if (window.EduLift) window.EduLift.track(name, Object.assign({ simulator: 'transformer-lab' }, params || {}));
+};
+
+track('simulator_opened');
+
+const completionTracked = { save: false, shot: false };
+document.getElementById('btnSave').addEventListener('click', () => {
+  if (!completionTracked.save) { track('simulator_completed', { via: 'save' }); completionTracked.save = true; }
+});
+document.getElementById('btnShot').addEventListener('click', () => {
+  if (!completionTracked.shot) { track('simulator_completed', { via: 'screenshot' }); completionTracked.shot = true; }
+});
+document.getElementById('btnLoad').addEventListener('click', () => track('scene_loaded'));
+document.getElementById('btnReset').addEventListener('click', () => track('simulator_reset'));
+document.getElementById('btnXray').addEventListener('click', () => track('view_toggled', { view: 'xray' }));
+document.getElementById('btnInternals').addEventListener('click', () => track('view_toggled', { view: 'internals' }));
+
+document.querySelectorAll('#notes .note h3').forEach((h3) => {
+  h3.addEventListener('click', () => track('note_opened', { note: h3.textContent }));
+});

@@ -3,6 +3,119 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="Free interactive 3D simulators for learning science and engineering. Explore a 3D circulatory system and a power transformer, part by part." />
+<meta name="keywords" content="educational simulator, 3D interactive learning, circulatory system, heart anatomy, power transformer, science simulator, engineering simulator, online lab" />
+<meta name="author" content="EduLift" />
+<meta name="theme-color" content="#0a0e14" />
+<link rel="canonical" href="https://edu-lift-omega.vercel.app/" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="EduLift" />
+<meta property="og:title" content="EduLift — Interactive 3D Simulators" />
+<meta property="og:description" content="Free interactive 3D simulators for learning science and engineering. Explore a 3D circulatory system and a power transformer, part by part." />
+<meta property="og:url" content="https://edu-lift-omega.vercel.app/" />
+<meta property="og:image" content="https://edu-lift-omega.vercel.app/og-image.png" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="EduLift — Interactive 3D Simulators" />
+<meta name="twitter:description" content="Free interactive 3D simulators for learning science and engineering." />
+<meta name="twitter:image" content="https://edu-lift-omega.vercel.app/og-image.png" />
+
+<title>EduLift — Interactive 3D Simulators</title>
+
+<link rel="preload" as="style" href="styles.css" />
+<link rel="stylesheet" href="styles.css" />
+
+<script id="edulift-meta" type="application/json">
+{
+  "siteName": "EduLift",
+  "type": "website",
+  "title": "EduLift — Interactive 3D Simulators",
+  "description": "Free interactive 3D simulators for learning science and engineering. Explore a 3D circulatory system and a power transformer, part by part.",
+  "canonical": "https://edu-lift-omega.vercel.app/",
+  "image": "https://edu-lift-omega.vercel.app/og-image.png",
+  "themeColor": "#0a0e14"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://edu-lift-omega.vercel.app/#website",
+      "url": "https://edu-lift-omega.vercel.app/",
+      "name": "EduLift",
+      "description": "Free interactive 3D simulators for learning science and engineering.",
+      "inLanguage": "en",
+      "publisher": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://edu-lift-omega.vercel.app/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://edu-lift-omega.vercel.app/#org",
+      "url": "https://edu-lift-omega.vercel.app/",
+      "name": "EduLift",
+      "description": "EduLift builds free interactive 3D simulators that let students explore science and engineering models part by part.",
+      "sameAs": ["https://github.com/behredine/EduLift"]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://edu-lift-omega.vercel.app/#webpage",
+      "url": "https://edu-lift-omega.vercel.app/",
+      "name": "EduLift — Interactive 3D Simulators",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" },
+      "about": { "@id": "https://edu-lift-omega.vercel.app/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://edu-lift-omega.vercel.app/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is EduLift?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "EduLift is a collection of free, interactive 3D simulators that let you explore science and engineering models — such as the human circulatory system and a power transformer — by rotating, exploding and inspecting them part by part."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is EduLift free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Every EduLift simulator runs directly in your browser with no sign-up and no downloads required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need special hardware to run the simulators?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The 3D simulators are built with WebGL and run on any modern desktop or mobile browser, including phones and tablets."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZNSWN38MR"></script>
 <script>
@@ -12,22 +125,24 @@
 
   gtag('config', 'G-KZNSWN38MR');
 </script>
-<title>EduLift — Interactive 3D Simulators</title>
-<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+<a class="skip-link" href="#results">Skip to main content</a>
+
 <header class="site-head">
-  <a class="brand" href="index.html">
-    <span class="logo">🎓</span>
-    <div>
-      <strong>EduLift</strong>
-      <small>Interactive 3D simulators for learning</small>
-    </div>
-  </a>
+  <nav aria-label="Primary">
+    <a class="brand" href="index.html" aria-label="EduLift home">
+      <span class="logo" aria-hidden="true">🎓</span>
+      <div>
+        <strong>EduLift</strong>
+        <small>Interactive 3D simulators for learning</small>
+      </div>
+    </a>
+  </nav>
 </header>
 
-<main>
+<main id="main">
   <section class="hero">
     <h1>Explore science in 3D</h1>
     <p class="hero-sub">Search for a simulator below or browse the full list. Every model can be rotated, pulled apart and inspected part by part.</p>
@@ -35,29 +150,40 @@
     <div class="search-wrap">
       <span class="search-ic" aria-hidden="true">🔍</span>
       <input id="search" type="search" placeholder="Search simulators — try “transformer”, “heart”, “blood”…"
-             autocomplete="off" spellcheck="false" />
+             autocomplete="off" spellcheck="false" aria-label="Search simulators" />
       <kbd>Enter ↵</kbd>
     </div>
 
-    <div id="filterChips" class="chips" aria-label="Filter by category"></div>
+    <div id="filterChips" class="chips" role="group" aria-label="Filter by category"></div>
   </section>
 
-  <section class="results" id="results">
+  <section class="results" id="results" aria-labelledby="resultsTitle">
     <div class="results-head">
       <h2 id="resultsTitle">All simulators</h2>
-      <span id="count" class="count"></span>
+      <span id="count" class="count" aria-live="polite"></span>
     </div>
     <div id="grid" class="grid"></div>
     <p id="empty" class="empty" hidden>No simulators match that search — try a different word.</p>
+  </section>
+
+  <section class="about" aria-labelledby="aboutTitle">
+    <h2 id="aboutTitle">Why interactive 3D simulators?</h2>
+    <p>Textbooks describe anatomy and engineering in flat diagrams. EduLift builds them as 3D models you can rotate, explode into parts and explore at your own pace — turning abstract concepts into something you can see and touch.</p>
+    <ul>
+      <li>Heart Lab — a 3D circulatory system simulator showing the chambers, valves and blood flow of the human heart.</li>
+      <li>Transformer Lab — a 3D power transformer simulator showing the core, coils and internals of a real transformer.</li>
+    </ul>
   </section>
 </main>
 
 <footer class="site-foot">
   <p>EduLift · New simulators are added over time — check back soon.</p>
+  <a href="https://github.com/behredine/EduLift" rel="noopener" data-track="github_clicked">GitHub</a>
 </footer>
 
 <div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
 
-<script src="home.js"></script>
+<script src="js/site.js" defer></script>
+<script src="home.js" defer></script>
 </body>
 </html>

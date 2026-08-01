@@ -1,0 +1,24 @@
+{
+  "name": "EduLift — Interactive 3D Simulators",
+  "short_name": "EduLift",
+  "description": "Free interactive 3D simulators for learning science and engineering. Explore a 3D circulatory system and a power transformer, part by part.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0e14",
+  "theme_color": "#0a0e14",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>EduLift — Simulators</title>
+    <link>https://edu-lift-omega.vercel.app</link>
+    <description>Free interactive 3D simulators for learning science and engineering. Explore a 3D circulatory system and a power transformer, part by part.</description>
+    <language>en-us</language>
+    <lastBuildDate>2026-08-01</lastBuildDate>
+        <item>
+      <title>Heart Lab</title>
+      <link>https://edu-lift-omega.vercel.app/simulators/heart-lab/</link>
+      <guid>https://edu-lift-omega.vercel.app/simulators/heart-lab/</guid>
+      <description>3D Circulatory System Simulator</description>
+      <pubDate>2026-08-01</pubDate>
+      <enclosure url="https://edu-lift-omega.vercel.app/simulators/heart-lab/og-image.png" type="image/png" length="0"/>
+    </item>
+    <item>
+      <title>Transformer Lab</title>
+      <link>https://edu-lift-omega.vercel.app/simulators/transformer-lab/</link>
+      <guid>https://edu-lift-omega.vercel.app/simulators/transformer-lab/</guid>
+      <description>3D Power Transformer Simulator</description>
+      <pubDate>2026-08-01</pubDate>
+      <enclosure url="https://edu-lift-omega.vercel.app/simulators/transformer-lab/og-image.png" type="image/png" length="0"/>
+    </item>
+  </channel>
+</rss>

@@ -27,7 +27,13 @@ window.addEventListener('error', (e) => {
     const a = document.createElement('a');
     a.className = 'card';
     a.href = 'simulators/' + s.slug + '/';
+    a.setAttribute('aria-label', 'Open ' + s.name + ' simulator');
     a.style.setProperty('--accent', s.accent || '#38bdf8');
+    a.addEventListener('click', function () {
+      if (window.EduLift) {
+        window.EduLift.track('simulator_opened', { simulator: s.slug, name: s.name });
+      }
+    });
     const kw = (s.keywords || []).slice(0, 4)
       .map((k) => '<span class="kw">' + escapeHtml(k) + '</span>')
       .join('');
@@ -78,13 +84,16 @@ window.addEventListener('error', (e) => {
     }
     for (const c of cats) {
       const b = document.createElement('button');
+      b.type = 'button';
       b.className = 'chip' + (c === 'all' ? ' active' : '');
       b.textContent = c === 'all' ? 'All' : c;
       b.dataset.cat = c;
+      b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false');
       b.addEventListener('click', () => {
         activeCategory = c;
         for (const x of chipsWrap.querySelectorAll('.chip')) {
           x.classList.toggle('active', x === b);
+          x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
         }
         render();
       });
@@ -105,7 +114,7 @@ window.addEventListener('error', (e) => {
     .catch((err) => {
       console.error(err);
       grid.innerHTML = '<p class="empty">Could not load the simulator list. ' +
-        'Make sure the site is served over HTTP (node server.js).</p>';
+        'Make sure the site is served over HTTP (node dev-server.js).</p>';
     });
 
   search.addEventListener('input', render);
