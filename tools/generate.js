@@ -143,9 +143,9 @@ function setPx(pix, w, h, x, y, c) {
   if (sa <= 0) return;
   const da = pix[i + 3] / 255;
   const oa = sa + da * (1 - sa);
-  pix[i] = Math.round(c.r * sa * 255 + pix[i] * (1 - sa));
-  pix[i + 1] = Math.round(c.g * sa * 255 + pix[i + 1] * (1 - sa));
-  pix[i + 2] = Math.round(c.b * sa * 255 + pix[i + 2] * (1 - sa));
+  pix[i] = Math.round(c.r * sa + pix[i] * (1 - sa));
+  pix[i + 1] = Math.round(c.g * sa + pix[i + 1] * (1 - sa));
+  pix[i + 2] = Math.round(c.b * sa + pix[i + 2] * (1 - sa));
   pix[i + 3] = Math.round(oa * 255);
 }
 
@@ -314,42 +314,58 @@ function drawText(pix, w, h, text, centerX, centerY, scale, c) {
 }
 
 /* ------------------------------------------------------------------ *
- * Graduation-cap icon
+ * E-lift icon (white "E" with an up arrow on a red tile)
  * ------------------------------------------------------------------ */
 
-function drawCap(pix, w, h, cx, cy, size, c) {
-  const rx = size * 0.42;
-  const ry = size * 0.24;
-  const x0 = cx - rx;
-  const x1 = cx + rx;
-  const y0 = cy - ry;
-  const y1 = cy + ry;
-  for (let y = Math.floor(y0); y <= y1; y++) {
-    for (let x = Math.floor(x0); x <= x1; x++) {
-      const dx = (x + 0.5 - cx) / rx;
-      const dy = (y + 0.5 - cy) / ry;
-      if (Math.abs(dx) + Math.abs(dy) <= 1) setPx(pix, w, h, x, y, c);
+const ICON_BG = '#dc2626';
+const ICON_FG = { r: 255, g: 255, b: 255, a: 255 };
+
+function fillTriangle(pix, w, h, ax, ay, bx, by, cx, cy, color) {
+  const x0 = Math.floor(Math.min(ax, bx, cx));
+  const x1 = Math.ceil(Math.max(ax, bx, cx));
+  const y0 = Math.floor(Math.min(ay, by, cy));
+  const y1 = Math.ceil(Math.max(ay, by, cy));
+  for (let y = y0; y <= y1; y++) {
+    for (let x = x0; x <= x1; x++) {
+      const px = x + 0.5;
+      const py = y + 0.5;
+      const d1 = (bx - ax) * (py - ay) - (by - ay) * (px - ax);
+      const d2 = (cx - bx) * (py - by) - (cy - by) * (px - bx);
+      const d3 = (ax - cx) * (py - cy) - (ay - cy) * (px - cx);
+      const hasNeg = d1 < 0 || d2 < 0 || d3 < 0;
+      const hasPos = d1 > 0 || d2 > 0 || d3 > 0;
+      if (!(hasNeg && hasPos)) setPx(pix, w, h, x, y, color);
     }
   }
-  const skull = shade(c, 0.8);
-  fillRoundRect(pix, w, h, cx - size * 0.2, cy, cx + size * 0.2, cy + size * 0.3, size * 0.08, skull);
-  fillCircle(pix, w, h, cx, cy - ry - size * 0.02, size * 0.045, shade(c, 1.25));
-  const light = { r: 230, g: 236, b: 244, a: 255 };
-  fillCircle(pix, w, h, cx + rx + size * 0.06, cy - size * 0.1, size * 0.05, light);
-  drawLine(pix, w, h, cx + rx - size * 0.04, cy, cx + rx + size * 0.06, cy - size * 0.1, size * 0.018, light);
 }
 
-function renderIcon(size, accentHex) {
+function drawELetter(pix, w, h, cx, cy, size) {
+  const f = (v) => cx - size / 2 + v * size;
+  const g = (v) => cy - size / 2 + v * size;
+  fillRect(pix, w, h, f(0.14), g(0.22), f(0.23), g(0.78), ICON_FG); // stem
+  fillRect(pix, w, h, f(0.14), g(0.22), f(0.54), g(0.30), ICON_FG); // top bar
+  fillRect(pix, w, h, f(0.14), g(0.45), f(0.54), g(0.53), ICON_FG); // middle bar
+  fillRect(pix, w, h, f(0.14), g(0.70), f(0.54), g(0.78), ICON_FG); // bottom bar
+  fillRect(pix, w, h, f(0.63), g(0.32), f(0.71), g(0.70), ICON_FG); // arrow shaft
+  fillTriangle(pix, w, h, f(0.67), g(0.12), f(0.58), g(0.34), f(0.76), g(0.34), ICON_FG); // arrowhead
+}
+
+function drawEIcon(pix, w, h, cx, cy, size) {
+  fillRoundRect(pix, w, h, cx - size / 2, cy - size / 2, cx + size / 2, cy + size / 2, size * 0.22, colorFromHex(ICON_BG));
+  drawELetter(pix, w, h, cx, cy, size);
+}
+
+function renderIcon(size, fullSquare) {
   const S = 4;
   const w = size * S;
   const h = size * S;
   const pix = new Uint8Array(w * h * 4);
-  fillVgradient(pix, w, h, colorFromHex('#1a2432'), colorFromHex('#0a0e14'));
-  const margin = size * S * 0.06;
-  fillRoundRect(pix, w, h, 0, 0, w, h, size * S * 0.22, { r: 255, g: 255, b: 255, a: 0 });
-  const cx = w / 2;
-  const cy = h / 2 + size * S * 0.03;
-  drawCap(pix, w, h, cx, cy, size * S * 0.56, colorFromHex(accentHex));
+  if (fullSquare) {
+    fillRect(pix, w, h, 0, 0, w, h, colorFromHex(ICON_BG));
+    drawELetter(pix, w, h, w / 2, h / 2, w * 0.62);
+  } else {
+    drawEIcon(pix, w, h, w / 2, h / 2, w * 0.96);
+  }
   return encodePNG(size, size, downsample(pix, w, h, size, size));
 }
 
@@ -368,8 +384,7 @@ function renderOG(title, tagline, accentHex) {
   fillRect(pix, w, h, 0, 0, w, 10 * S, colorFromHex(accentHex));
   fillRect(pix, w, h, 0, h - 6 * S, w, h, shade(colorFromHex(accentHex), 0.6));
 
-  const accent = colorFromHex(accentHex);
-  drawCap(pix, w, h, (W / 2) * S, 175 * S, 150 * S, accent);
+  drawEIcon(pix, w, h, (W / 2) * S, 175 * S, 150 * S);
 
   const titleUpper = String(title).toUpperCase();
   const scale = Math.min(14, Math.floor((W - 180) / (6 * titleUpper.length - 1)));
@@ -474,12 +489,13 @@ function webmanifest() {
  * ------------------------------------------------------------------ */
 
 const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0a0e14"/>
-  <path d="M32 16 L57 28 L32 40 L7 28 Z" fill="#38bdf8"/>
-  <path d="M32 34.5 L32 46" stroke="#2c89bd" stroke-width="2"/>
-  <rect x="24" y="40" width="16" height="9" rx="3" fill="#2c89bd"/>
-  <circle cx="50" cy="24" r="3.4" fill="#e8eef6"/>
-  <path d="M50 24 L56 18" stroke="#e8eef6" stroke-width="2"/>
+  <rect width="64" height="64" rx="14" fill="#dc2626"/>
+  <rect x="9" y="14" width="6" height="36" fill="#ffffff"/>
+  <rect x="9" y="14" width="26" height="5.5" fill="#ffffff"/>
+  <rect x="9" y="29" width="26" height="5.5" fill="#ffffff"/>
+  <rect x="9" y="45" width="26" height="5.5" fill="#ffffff"/>
+  <rect x="40" y="20" width="5.5" height="24" fill="#ffffff"/>
+  <polygon points="43,7 36,20 50,20" fill="#ffffff"/>
 </svg>
 `;
 
@@ -505,12 +521,12 @@ function main() {
   write('favicon.svg', FAVICON_SVG);
 
   const ico = encodeICO(
-    [16, 32, 48].map((size) => ({ size, png: renderIcon(size, accent) }))
+    [16, 32, 48].map((size) => ({ size, png: renderIcon(size) }))
   );
   write('favicon.ico', ico);
-  write('apple-touch-icon.png', renderIcon(180, accent));
-  write('icon-192.png', renderIcon(192, accent));
-  write('icon-512.png', renderIcon(512, accent));
+  write('apple-touch-icon.png', renderIcon(180, true));
+  write('icon-192.png', renderIcon(192));
+  write('icon-512.png', renderIcon(512));
   write('og-image.png', renderOG(SITE.name, SITE.tagline, accent));
 
   for (const s of sims) {
