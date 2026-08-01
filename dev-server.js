@@ -46,7 +46,7 @@ http.createServer((req, res) => {
       resolveAndSend(file, res);
     }
   });
-}).listen(PORT, () => console.log(`EduLift running at http://localhost:${PORT}`));
+}).listen(PORT, () => console.log(`EduLift running at http://localhost:${PORT} (local dev only — deploy as a static site)`));
 
 function resolveAndSend(file, res) {
   fs.readFile(file, (err, data) => {
