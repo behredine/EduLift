@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="Interactive CPU simulator. Write assembly, step through fetch-decode-execute, and watch registers, ALU and memory change in real time." />
+<meta name="keywords" content="CPU simulator, assembly language, fetch decode execute, computer architecture, educational, programming" />
+<meta name="author" content="EduLift" />
+<meta name="theme-color" content="#0a0e14" />
+<link rel="canonical" href="https://edu-lift-omega.vercel.app/simulators/cpu-lab/" />
+<link rel="icon" href="../../favicon.ico" sizes="any" />
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+<link rel="manifest" href="../../site.webmanifest" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="EduLift" />
+<meta property="og:title" content="CPU Lab — Assembly Simulator" />
+<meta property="og:description" content="Write assembly, step through fetch-decode-execute, and watch registers, ALU and memory change in real time." />
+<meta property="og:url" content="https://edu-lift-omega.vercel.app/simulators/cpu-lab/" />
+<meta property="og:image" content="https://edu-lift-omega.vercel.app/simulators/cpu-lab/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="CPU Lab — Assembly Simulator" />
+<meta name="twitter:description" content="Write assembly, step through fetch-decode-execute, and watch registers, ALU and memory change in real time." />
+<meta name="twitter:image" content="https://edu-lift-omega.vercel.app/simulators/cpu-lab/og-image.png" />
+<title>CPU Lab — Assembly Simulator</title>
+<script id="edulift-meta" type="application/json">
+{
+  "siteName": "EduLift",
+  "type": "article",
+  "title": "CPU Lab — Assembly Simulator",
+  "description": "Write assembly, step through fetch-decode-execute, and watch registers, ALU and memory change in real time.",
+  "canonical": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/",
+  "image": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/og-image.png",
+  "themeColor": "#0a0e14"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/#webpage",
+      "url": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/",
+      "name": "CPU Lab — Assembly Simulator",
+      "description": "Write assembly, step through fetch-dececode-execute, and watch registers, ALU and memory change in real time.",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" },
+      "about": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "primaryImageOfPage": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/og-image.png"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/#app",
+      "name": "CPU Lab",
+      "url": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/",
+      "image": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/og-image.png",
+      "description": "An interactive assembly-language CPU simulator that teaches fetch-decode-execute, registers, ALU and memory.",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires a modern browser with JavaScript",
+      "featureList": "Assembly editor, step-through pipeline, register view, memory view, output console, example programs",
+      "inLanguage": "en",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@id": "https://edu-lift-omega.vercel.app/#org" },
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" }
+    },
+    {
+      "@type": "LearningResource",
+      "@id": "https://edu-lift-omega.vercel.app/simulators/cpu-lab/#lesson",
+      "name": "How a CPU Works",
+      "description": "An interactive lesson on CPU architecture using a step-through assembly simulator.",
+      "learningResourceType": "3D interactive simulator",
+      "educationalLevel": "Secondary school and above",
+      "teaches": [
+        "Fetch-decode-execute cycle",
+        "Program counter and instruction register",
+        "Registers and their roles",
+        "ALU arithmetic and logic",
+        "Memory load and store",
+        "Conditional jumps and control flow"
+      ],
+      "about": [
+        { "@type": "Thing", "name": "Central processing unit" },
+        { "@type": "Thing", "name": "Computer architecture" }
+      ],
+      "inLanguage": "en",
+      "isPartOf": { "@id": "https://edu-lift-omega.vercel.app/#website" }
+    }
+  ]
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KZNSWN38MR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-KZNSWN38MR');
+</script>
+<link rel="preload" as="style" href="styles.css" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#notes">Skip to student guide</a>
+
+<div id="app">
+  <div id="viewport">
+    <div id="toolbar">
+      <div class="brand">
+        <span class="logo">⚙</span>
+        <div>
+          <strong>CPU Lab</strong>
+          <small>Assembly fetch-decode-execute</small>
+        </div>
+      </div>
+
+      <div class="tool-group" id="ctrlGroup">
+        <button class="tb-btn" id="btnRun" title="Run until HLT or error">▶ Run</button>
+        <button class="tb-btn active" id="btnStep" title="Execute one pipeline stage">Step</button>
+        <button class="tb-btn" id="btnReset" title="Reset CPU and reload code">↺ Reset</button>
+      </div>
+
+      <div class="tool-group">
+        <div class="range-wrap">
+          <span class="lbl">Speed</span>
+          <input id="speedSlider" type="range" min="1" max="10" value="4" />
+          <span id="speedVal" class="val-chip">4×</span>
+        </div>
+      </div>
+
+      <div class="tool-group">
+        <select id="exampleSelect" class="tb-btn" title="Load an example program" aria-label="Load example program">
+          <option value="">Examples ▾</option>
+          <option value="add">Add two numbers</option>
+          <option value="loop">Countdown loop</option>
+          <option value="max">Find max in array</option>
+          <option value="fib">Fibonacci</option>
+          <option value="mem">Memory copy</option>
+        </select>
+      </div>
+
+      <div class="tool-group home-nav">
+        <a class="tb-btn" href="../../index.html" title="Back to all simulators">
+          <span class="ic">☰</span>All simulators
+        </a>
+      </div>
+    </div>
+
+    <div class="cpu-layout">
+      <div class="editor-panel">
+        <div class="editor-head">
+          <span>Code Editor</span>
+          <span class="hint">Assembly — try the examples</span>
+        </div>
+        <div class="editor-body">
+          <div class="line-nums" id="lineNums"></div>
+          <textarea id="codeEditor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="; Write your assembly here&#10;MOV R0, 5&#10;MOV R1, 3&#10;ADD R0, R1&#10;OUT R0&#10;HLT"></textarea>
+        </div>
+      </div>
+
+      <div class="diagram-panel">
+        <div class="diagram-head">Pipeline</div>
+        <div class="pipeline-bar">
+          <div class="pstage fetch idle" id="stageFetch">Fetch</div>
+          <div class="pstage decode idle" id="stageDecode">Decode</div>
+          <div class="pstage execute idle" id="stageExecute">Execute</div>
+        </div>
+        <div class="cpu-diagram">
+          <div class="cpu-row">
+            <span class="cpu-label">PC</span>
+            <div class="cpu-block" id="blockPC"><span class="pc-chip" id="pcDisplay">PC=0</span></div>
+          </div>
+          <div class="cpu-row">
+            <span class="cpu-label">IR</span>
+            <div class="cpu-block" id="blockIR"><span class="ir-chip" id="irDisplay">IR=—</span></div>
+          </div>
+          <div class="cpu-row">
+            <span class="cpu-label">Regs</span>
+            <div class="cpu-block" id="blockRegs"></div>
+          </div>
+          <div class="cpu-row">
+            <span class="cpu-label">Flags</span>
+            <div class="cpu-block" id="blockFlags">
+              <span class="flag off" id="flagZ">Z</span>
+              <span class="flag off" id="flagN">N</span>
+              <span class="flag off" id="flagC">C</span>
+            </div>
+          </div>
+          <div class="cpu-row">
+            <span class="cpu-label">ALU</span>
+            <div class="cpu-block" id="blockALU"><span class="comp">+ − × ÷ CMP</span></div>
+          </div>
+          <div class="cpu-row">
+            <span class="cpu-label">Memory</span>
+            <div class="cpu-block" id="blockMem"><span class="comp">128 cells</span></div>
+          </div>
+          <div class="cpu-row">
+            <span class="cpu-label">CU</span>
+            <div class="cpu-block" id="blockCU"><span class="comp">Control Unit</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-panels">
+        <div class="side-panel" style="flex:1;min-height:0">
+          <div class="side-panel-head">Registers</div>
+          <div class="side-panel-body" id="regsPanel"></div>
+        </div>
+        <div class="side-panel" style="flex:1;min-height:0">
+          <div class="side-panel-head">Memory</div>
+          <div class="side-panel-body" id="memPanel"></div>
+        </div>
+        <div class="side-panel" style="flex:0 0 auto;max-height:180px">
+          <div class="side-panel-head">Output</div>
+          <div class="side-panel-body console-out" id="consolePanel"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="statusbar">
+    <span id="statusText">Ready — type or load an example, then Run or Step</span>
+    <span id="cycleReadout" class="val-chip">cycle 0</span>
+  </div>
+
+  <button id="btnPanelToggle" title="Show / hide inspector">⚙</button>
+</div>
+
+<section id="notes">
+  <div class="notes-wrap">
+    <header class="notes-title">
+      <h2>Student Guide — How a CPU Works</h2>
+      <p>Use the simulator above as you read. Type or load an example program, then click <b>Step</b> to advance one pipeline stage at a time. Watch the diagram highlight which CPU component is active (Fetch → Decode → Execute).</p>
+    </header>
+
+    <div class="note">
+      <h3>1 · The fetch-decode-execute cycle</h3>
+      <p>Every instruction a CPU runs goes through three stages:</p>
+      <p class="formula">Fetch: read the instruction from memory at address PC → store in IR → PC++<br>Decode: the Control Unit figures out what the instruction means<br>Execute: the ALU or Memory does the work (add, load, jump…)</p>
+    </div>
+
+    <div class="note">
+      <h3>2 · Registers</h3>
+      <p>The <b>PC</b> (Program Counter) holds the address of the next instruction. The <b>IR</b> (Instruction Register) holds the instruction currently being decoded. <b>R0–R7</b> are general-purpose registers — fast, tiny storage inside the CPU.</p>
+    </div>
+
+    <div class="note">
+      <h3>3 · Flags</h3>
+      <p>After a <b>CMP</b> (compare) instruction the CPU sets flags: <b>Z</b> (zero — values were equal), <b>N</b> (negative — first value was smaller), <b>C</b> (carry — unsigned overflow). Conditional jumps (<b>JE, JNE, JG…</b>) read these flags to decide whether to branch.</p>
+    </div>
+
+    <div class="note">
+      <h3>4 · Memory</h3>
+      <p><b>LOAD</b> copies a value from memory into a register. <b>STORE</b> copies from a register into memory. Memory addresses are just numbers 0–127. Think of memory as a row of 128 tiny boxes, each holding one number.</p>
+    </div>
+
+    <div class="note">
+      <h3>Try this with the simulator</h3>
+      <ul>
+        <li>Load the <b>Countdown loop</b> example and click <b>Step</b> repeatedly — watch PC advance and the loop jump back.</li>
+        <li>Switch to <b>Find max</b> — see how <b>CMP</b> + <b>JG</b> implements a comparison branch.</li>
+        <li>Open the <b>Registers</b> and <b>Memory</b> panels on the right and watch values change after each step.</li>
+        <li>Click <b>Run</b> to let the CPU fly through the program automatically.</li>
+      </ul>
+    </div>
+
+    <footer class="notes-foot">
+      <p>Key terms: <b>fetch-decode-execute</b>, <b>program counter (PC)</b>, <b>instruction register (IR)</b>, <b>control unit (CU)</b>, <b>ALU</b>, <b>registers</b>, <b>flags</b>, <b>conditional jump</b>, <b>memory address</b>.</p>
+    </footer>
+  </div>
+</section>
+
+<div id="errBox" style="display:none;position:fixed;inset:0;z-index:99;background:#140b0b;color:#ffb4b4;font-family:Consolas,monospace;padding:24px;overflow:auto;white-space:pre-wrap;"></div>
+
+<script src="../../js/site.js" defer></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

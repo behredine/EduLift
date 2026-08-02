@@ -81,6 +81,44 @@
         { "slug": "heart-lab", "note": "Both simulators show how energy is moved through a system — compare the two layouts" }
       ],
       "difficulty": "Intermediate"
+    },
+    {
+      "slug": "cpu-lab",
+      "name": "CPU Lab",
+      "tagline": "Assembly fetch-decode-execute simulator",
+      "icon": "⚙",
+      "category": "Computer Science",
+      "accent": "#38bdf8",
+      "description": "Write assembly code and step through the CPU pipeline — watch fetch, decode and execute stages light up the control unit, ALU, registers and memory in real time.",
+      "keywords": [
+        "cpu simulator",
+        "assembly language",
+        "fetch decode execute",
+        "computer architecture",
+        "registers",
+        "alu",
+        "programming",
+        "educational"
+      ],
+      "topics": [
+        "Fetch-decode-execute cycle",
+        "Program counter and instruction register",
+        "Registers and their roles",
+        "ALU arithmetic and logic",
+        "Memory load and store",
+        "Conditional jumps and control flow"
+      ],
+      "learningObjectives": [
+        "Explain the fetch-decode-execute cycle",
+        "Identify the role of PC, IR and the control unit",
+        "Describe what the ALU does",
+        "Use LOAD and STORE to access memory",
+        "Write a loop using conditional jumps"
+      ],
+      "related": [
+        { "slug": "heart-lab", "note": "Both simulators show how a system processes information — one moves blood, the other moves data" }
+      ],
+      "difficulty": "Intermediate"
     }
   ]
 }

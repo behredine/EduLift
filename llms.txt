@@ -10,3 +10,4 @@ Free interactive 3D simulators for learning science and engineering. Explore a 3
 
 - https://edu-lift-omega.vercel.app/simulators/heart-lab/ : Heart Lab — 3D Circulatory System Simulator
 - https://edu-lift-omega.vercel.app/simulators/transformer-lab/ : Transformer Lab — 3D Power Transformer Simulator
+- https://edu-lift-omega.vercel.app/simulators/cpu-lab/ : CPU Lab — Assembly fetch-decode-execute simulator
